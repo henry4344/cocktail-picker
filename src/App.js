@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
 import Drink from "./components/Drink";
-import MultipleDrinks from "./components/MultipleDrinks";
 
 function App() {
   const [allCocktails, setAllCocktails] = useState({ undefined });
@@ -36,7 +35,6 @@ function App() {
         <h1>Cocktail Picker</h1>
       </header>
       <main className="App-main">
-        {/* <MultipleDrinks cocktails={allCocktails} /> */}
         <ul className="display-cocktails">
           {allCocktails.drinks
             ? allCocktails.drinks.map((cocktail) => {
