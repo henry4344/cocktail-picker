@@ -1,23 +1,53 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from "react";
+import "./App.css";
+import Drink from "./components/Drink";
+import MultipleDrinks from "./components/MultipleDrinks";
 
 function App() {
+  const [allCocktails, setAllCocktails] = useState({ undefined });
+  const [cocktail, setCocktail] = useState({});
+
+  useEffect(() => {
+    const fetchCocktailData = async () => {
+      const req = await fetch(
+        "https://www.thecocktaildb.com/api/json/v1/1/search.php?f=a"
+      );
+      const res = await req.json();
+
+      setAllCocktails(res);
+    };
+    fetchCocktailData();
+  }, []);
+
+  const randomCocktail = async () => {
+    console.log("clicked");
+    const req = await fetch(
+      "https://www.thecocktaildb.com/api/json/v1/1/random.php"
+    );
+    const res = await req.json();
+    console.log(res);
+    setCocktail(res);
+    console.log(allCocktails);
+    console.log(typeof allCocktails);
+  };
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <h1>Cocktail Picker</h1>
       </header>
+      <main className="App-main">
+        {/* <MultipleDrinks cocktails={allCocktails} /> */}
+        <ul className="display-cocktails">
+          {allCocktails.drinks
+            ? allCocktails.drinks.map((cocktail) => {
+                console.log(cocktail);
+                return <Drink cocktail={cocktail} />;
+              })
+            : null}
+        </ul>
+        {/* <Drink cocktail={cocktail} /> */}
+        <button onClick={randomCocktail}>Random Cocktail</button>
+      </main>
     </div>
   );
 }
